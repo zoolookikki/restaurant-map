@@ -15,13 +15,17 @@ export default function MainPage() {
   // point d'intérêt choisi (le Mcdo choisi suite au clic sur le marqueur).
   const [currentPOI, setCurrentPOI] = useState(null);
 
+  function displayReset() {
+    setCurrentCity(null);
+    setCurrentPOI(null);
+  }
+
   // on a cliqué sur "Continuer" dans l'overlay.
   function handleContinue() {
     if (currentPOI) {
       alert(`On continue, le choix est : ${currentPOI.name}`);
-      // on reset tout.
-      setCurrentCity(null);
-      setCurrentPOI(null);
+      // on reset l'affichage.
+      displayReset();
     }
   }
 
@@ -29,8 +33,14 @@ export default function MainPage() {
     <main>
       <h1>Hello restaurant-map</h1>
 
-      {/* recherche de la ville => choix de la ville */}
-      <Search onSearchSelect={setCurrentCity} />
+      {/*
+      recherche de la ville => choix de la ville
+      onSearchReset pour que search puis remettre à zéro l'affichage.
+      */}
+      <Search
+        onSearchSelect={setCurrentCity}
+        onSearchReset={displayReset}
+      />
 
       {/* reçoit la ville choisie + liste des POI => choix du point d'intérêt */}
       <Map

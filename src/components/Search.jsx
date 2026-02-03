@@ -1,44 +1,46 @@
 import { useState } from "react";
+import { searchCity } from "../services/nominatim";
 
-// ATTENTION A RENDRE CE MODULE PLUS GENERIQUE...
-function Search({ onSearchSelect }) {
+// AMELIORATION POSSIBLE : rendre ce module plus générique (ne doit pas savoir qu'il cherche des villes et que cela soit fait avec Nominatim(searchCity))
+function Search({ onSearchSelect, onSearchReset }) {
 
   // champ de recherche.
   const [query, setQuery] = useState("");
-  // suggestions suite à la validation de la recherche => simulation du fetch via Nominatim pour le moment (ATTENTION A RESTER GENERIQUE POUR LE SEARCH ET NOMINATIM...)
-  const [suggestions, setSuggestions] = useState([
-    { name: "Lieusaint 1", lat: 0.01, lon: 0.01 },
-    { name: "Lieusaint 2", lat: 0.02, lon: 0.02 },
-    { name: "Lieusaint 3", lat: 0.03, lon: 0.03 },
-  ]);
+  const [suggestions, setSuggestions] = useState([]);
 
-  // provisoire, uniquement pour simulation pour le moment.
-  const [showSuggestions, setShowSuggestions] = useState(false);
-
-  function handleSubmit(e) {
+  // async car on attend le résulat de searchCity.
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    // simulation de la recherche via Nominatim (le showSuggestions également)
-    alert(`En cours de recherche de : ${query}`);
-    setShowSuggestions(true);
+    // reset de l'affichage gérer par Main lors d'une nouvelle recherche.
+    onSearchReset();
+
+    try {
+      const results = await searchCity(query);
+
+      if (results.length === 0) {
+        alert("Aucune correspondance trouvée pour cette recherche.");
+      }
+      setSuggestions(results);
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
   }
 
   function handleSuggestionClick(suggestion) {
     // remonte le résultat de la recherche au MAIN.
     onSearchSelect(suggestion);
     setQuery("");
-    setShowSuggestions(false);
+    setSuggestions([]);
   }
 
   const renderSuggestionList = () => {
-    if (!showSuggestions) return null;
-    if (suggestions.length === 0) return null;
-
     return (
       <ul>
         {suggestions.map((suggestion) => (
           <li
-            key={suggestion.name}
+            key={suggestion.id}
             onClick={() => handleSuggestionClick(suggestion)}
             style={{ cursor: "pointer" }}
           >
