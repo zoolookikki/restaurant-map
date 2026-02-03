@@ -16,7 +16,7 @@ function Map({ currentCity, poiList, onPOISelect }) {
            <p>
               <strong>Id : </strong>{poi.id} | {" "}
               <strong>Nom :</strong>{poi.name} | {" "}
-              <strong>Adresse :</strong>{poi.adress} | {" "}
+              <strong>Adresse :</strong>{poi.address} | {" "}
               <strong>Lat :</strong>{poi.lat} | {" "}
               <strong>Lon :</strong>{poi.lon} | {" "}
               <strong>Description :</strong>{poi.description}

@@ -2,22 +2,27 @@ import Map from "../components/Map";
 import Search from "../components/Search";
 import Overlay from "../components/Overlay";
 import { useState } from "react";
+import { getNearbyPOIs } from "../services/nearbyPoiService";
 
 export default function MainPage() {
 
   // Ville choisie.
   const [currentCity, setCurrentCity] = useState(null);
-  // Liste des points d'intérêt (Mcdo dans notre projet) => simulation du fetch via Nominatim pour le moment.
-  const [poiList, setPoiList] = useState([
-    { id: 1, name: "Mcdo Lieusaint", lat: 11.11, lon: 12.12, adress: "2 avenue Leclerc", description: "Il est beau"},
-    { id: 2, name: "Mcdo Combs", lat: 22.22, lon: 23.23, adress: "36 rue de la république", description: "Pas très bon"},
-  ]);
+  // Liste des points d'intérêt.
+  const [poiList, setPoiList] = useState([]);
   // point d'intérêt choisi (le Mcdo choisi suite au clic sur le marqueur).
   const [currentPOI, setCurrentPOI] = useState(null);
 
   function displayReset() {
     setCurrentCity(null);
     setCurrentPOI(null);
+  }
+
+  async function handleSelect(city) {
+    setCurrentCity(city);
+
+    const pois = await getNearbyPOIs(city);
+    setPoiList(pois);
   }
 
   // on a cliqué sur "Continuer" dans l'overlay.
@@ -38,7 +43,7 @@ export default function MainPage() {
       onSearchReset pour que search puis remettre à zéro l'affichage.
       */}
       <Search
-        onSearchSelect={setCurrentCity}
+        onSearchSelect={handleSelect}
         onSearchReset={displayReset}
       />
 

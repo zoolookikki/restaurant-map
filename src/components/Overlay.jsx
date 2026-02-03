@@ -7,7 +7,7 @@ function Overlay({ currentPOI, onContinue }) {
           <p>
             <strong>Id :</strong> {currentPOI.id} |{" "}
             <strong>Nom :</strong> {currentPOI.name} |{" "}
-            <strong>Adresse :</strong> {currentPOI.adress} |{" "}
+            <strong>Adresse :</strong> {currentPOI.address} |{" "}
             <strong>Lat :</strong> {currentPOI.lat} |{" "}
             <strong>Lon :</strong> {currentPOI.lon} |{" "}
             <strong>Description :</strong> {currentPOI.description}
