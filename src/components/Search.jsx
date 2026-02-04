@@ -2,7 +2,7 @@ import { useState } from "react";
 import { searchCity } from "../services/nominatim";
 
 // AMELIORATION POSSIBLE : rendre ce module plus générique (ne doit pas savoir qu'il cherche des villes et que cela soit fait avec Nominatim(searchCity))
-function Search({ onSearchSelect, onSearchReset }) {
+function Search({ onSearchSelect }) {
 
   // champ de recherche.
   const [query, setQuery] = useState("");
@@ -11,9 +11,6 @@ function Search({ onSearchSelect, onSearchReset }) {
   // async car on attend le résulat de searchCity.
   async function handleSubmit(e) {
     e.preventDefault();
-
-    // reset de l'affichage gérer par Main lors d'une nouvelle recherche.
-    onSearchReset();
 
     try {
       const results = await searchCity(query);
@@ -31,7 +28,6 @@ function Search({ onSearchSelect, onSearchReset }) {
   function handleSuggestionClick(suggestion) {
     // remonte le résultat de la recherche au MAIN.
     onSearchSelect(suggestion);
-    setQuery("");
     setSuggestions([]);
   }
 

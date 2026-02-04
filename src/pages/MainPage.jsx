@@ -13,11 +13,6 @@ export default function MainPage() {
   // point d'intérêt choisi (le Mcdo choisi suite au clic sur le marqueur).
   const [currentPOI, setCurrentPOI] = useState(null);
 
-  function displayReset() {
-    setCurrentCity(null);
-    setCurrentPOI(null);
-  }
-
   async function handleSelect(city) {
     setCurrentCity(city);
 
@@ -29,8 +24,8 @@ export default function MainPage() {
   function handleContinue() {
     if (currentPOI) {
       alert(`On continue, le choix est : ${currentPOI.name}`);
-      // on reset l'affichage.
-      displayReset();
+    } else {
+      alert('On continue sans choix');
     }
   }
 
@@ -40,11 +35,9 @@ export default function MainPage() {
 
       {/*
       recherche de la ville => choix de la ville
-      onSearchReset pour que search puis remettre à zéro l'affichage.
       */}
       <Search
         onSearchSelect={handleSelect}
-        onSearchReset={displayReset}
       />
 
       {/* reçoit la ville choisie + liste des POI => choix du point d'intérêt */}
