@@ -16,8 +16,17 @@ export default function MainPage() {
   async function handleSelect(city) {
     setCurrentCity(city);
 
-    const pois = await getNearbyPOIs(city);
-    setPoiList(pois);
+    try {
+      const pois = await getNearbyPOIs(city);
+
+      if (pois.length === 0) {
+        alert("Aucun Macdo trouvé.");
+      }
+      setPoiList(pois);
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
   }
 
   // on a cliqué sur "Continuer" dans l'overlay.

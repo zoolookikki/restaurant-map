@@ -22,6 +22,8 @@ export async function searchCity(query) {
       name: result.display_name,
       lat: result.lat,
       lon: result.lon,
+      // ATTENTION : le POI retournée doit contenir boundingbox car on en a besoin pour définir la viewbox (rectangle de recherche) => voir getNearbyPOIs.
+      boundingbox: result.boundingbox,
     }));
   } catch (error) {
     throw new Error("Impossible d’effectuer la recherche pour le moment.");

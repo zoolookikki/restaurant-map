@@ -65,10 +65,7 @@ function Map({ currentCity, poiList, onPOISelect }) {
             position={[Number(poi.lat), Number(poi.lon)]}
           >
             <Popup>
-              <strong>{poi.name}</strong>
-              <br />
               {poi.address}
-              <br />
               <button onClick={() => onPOISelect(poi)}>Choisir</button>
             </Popup>
           </Marker>
