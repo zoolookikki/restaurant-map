@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { searchCity } from "../services/nominatim";
+import { searchCity } from "../services/searchCityService.js";
 
 // AMELIORATION POSSIBLE : rendre ce module plus générique (ne doit pas savoir qu'il cherche des villes et que cela soit fait avec Nominatim(searchCity))
-function Search({ onSearchSelect }) {
+function Search({ onSearchSelect, onError }) {
 
   // champ de recherche.
   const [query, setQuery] = useState("");
@@ -16,12 +16,12 @@ function Search({ onSearchSelect }) {
       const results = await searchCity(query);
 
       if (results.length === 0) {
-        alert("Aucune correspondance trouvée pour cette recherche.");
+        onError("Aucune correspondance trouvée pour cette recherche.");
       }
       setSuggestions(results);
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      onError(error.message);
     }
   }
 
@@ -30,42 +30,55 @@ function Search({ onSearchSelect }) {
     onSearchSelect(suggestion);
     setSuggestions([]);
   }
-
   const renderSuggestionList = () => {
     return (
-      <ul>
+      // space-y-2" : espace entre les li.
+      <ul className="px-4 pb-4 space-y-2">
         {suggestions.map((suggestion) => (
-          <li
+          // cursor-pointer : affiche la main au survol pour indiquer que l’élément est cliquable
+          <li  className="cursor-pointer rounded-lg border border-black/30 bg-white px-3 py-2 text-sm hover:bg-gray-200 transition"
             key={suggestion.id}
             onClick={() => handleSuggestionClick(suggestion)}
-            style={{ cursor: "pointer" }}
           >
-            <p>
-              <strong>Nom :</strong> {suggestion.name} |{" "}
-              <strong>Lat :</strong> {suggestion.lat} |{" "}
-              <strong>Lon :</strong> {suggestion.lon}
-            </p>
+            {suggestion.name}
           </li>
         ))}
       </ul>
     );
   };
 
+  {/* bg-white/70 : fond blanc avec 70% d’opacité pour donner un effet verre */}
   return (
-    <>
-      <h2>SEARCH(recherche de ville)</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Saisissez une ville"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          required
-        />
-        <button type="submit">Rechercher</button>
-      </form>
-      <h3>Liste des suggestions : </h3>
-      {renderSuggestionList()}
-    </>
+     <div className="rounded-2xl bg-white/70 shadow-md">
+        {/* Titre comme la maquette */}
+        <div className="px-4 pt-1 text-sm font-semibold">
+          Rechercher un restaurant
+        </div>
+
+        {/*
+        flex utilisé pour aligner l’input et le bouton loupe
+        gap-2 espace entre le bouton et la loupe
+        */}
+        <form className="flex gap-2 px-4 pb-4 pt-2"
+          onSubmit={handleSubmit}
+        >
+          <input className="w-full border border-black/30 bg-white px-3 py-1 rounded-lg"
+            placeholder="Saisissez une ville"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            required
+            autoFocus
+          />
+          {/* flex + items-center + justify-center: utile pour centrer l'icône */}
+          <button className="flex items-center justify-center h-10 w-10 bg-yellow-400 cursor-pointer"
+            type="submit"
+          >
+            {/* material-icons : classe fournie par Google Material Icons => <span class="material-icons">search</span> affiche la loupe */}
+            <span className="material-icons">search</span>
+          </button>
+        </form>
+        {renderSuggestionList()}
+      </div>
   );
 }
 export default Search;

@@ -1,7 +1,24 @@
 @import "leaflet/dist/leaflet.css";
 
 .map {
-  width: 100%;
-  height: 50vh;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* écart du bouton qui suit l'autre verticalement */
+.leaflet-control-zoom a + a {
+  margin-top: 10px;
+}
+
+/* Supprime le gros cadre autour */
+.leaflet-control-zoom {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* cadre noir sur chaque bouton à la place */
+.leaflet-control-zoom a {
+  border: 1px solid #000 !important;
 }
 

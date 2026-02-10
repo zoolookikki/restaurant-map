@@ -1,23 +1,18 @@
 function Overlay({ currentPOI, onContinue }) {
   return (
-    <>
-    <h2>OVERLAY(informations détaillées)</h2>
+    // rounded-t-3xl : arrondi du haut uniquement.
+    <div className="w-full rounded-t-3xl bg-white p-4">
       {currentPOI ? (
         <>
-          <p>
-            <strong>Id :</strong> {currentPOI.id} |{" "}
-            <strong>Nom :</strong> {currentPOI.name} |{" "}
-            <strong>Adresse :</strong> {currentPOI.address} |{" "}
-            <strong>Lat :</strong> {currentPOI.lat} |{" "}
-            <strong>Lon :</strong> {currentPOI.lon} |{" "}
-            <strong>Description :</strong> {currentPOI.description}
-          </p>
-          <button onClick={() => onContinue()}>Continuer</button>
+          <h3 className="text-sm font-semibold">Restaurant sélectionné</h3>
+          <p className="text-xs">{currentPOI.address}</p>
+          {/* flex + items-center + justify-center: utile pour centrer l'icône */}
+          <button className="mt-4 flex items-center justify-center rounded-lg bg-yellow-400 px-3 py-2 text-xs font-semibold cursor-pointer" onClick={() => onContinue()}>Continuer</button>
         </>
       ) : (
-        <p>Aucun restaurant sélectionné</p>
+        <h3 className="text-sm font-semibold">Aucun restaurant sélectionné</h3>
       )}
-   </>
+   </div>
   );
 }
 export default Overlay;
