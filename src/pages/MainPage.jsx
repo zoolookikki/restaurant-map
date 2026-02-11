@@ -4,10 +4,15 @@ import Overlay from "../components/Overlay";
 import { useState, useEffect } from "react";
 import { getNearbyPOIs } from "../services/nearbyPoiService.js";
 
+// MODIF TEST CONTEXT
+import { useApp } from "../context/AppContext"
+
 export default function MainPage() {
 
-  // Ville choisie.
-  const [currentCity, setCurrentCity] = useState(null);
+  // MODIF TEST CONTEXT
+  //const [currentCity, setCurrentCity] = useState(null);
+  const { currentCity, setCurrentCity } = useApp();
+
   // Liste des points d'intérêt.
   const [poiList, setPoiList] = useState([]);
   // point d'intérêt choisi (le Mcdo choisi suite au clic sur le marqueur).
@@ -76,7 +81,8 @@ export default function MainPage() {
       */}
       <div className="relative z-10">
         <Map
-          currentCity={currentCity}
+          // MODIF TEST CONTEXT
+          //currentCity={currentCity}
           poiList={poiList}
           onPOISelect={setCurrentPOI}
         />

@@ -6,8 +6,17 @@
 */
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-function Map({ currentCity, poiList, onPOISelect }) {
+// MODIF TEST CONTEXT
+import { useApp } from "../context/AppContext"
+
+// MODIF TEST CONTEXT
+//function Map({ currentCity, poiList, onPOISelect }) {
+function Map({ poiList, onPOISelect }) {
+
+  // MODIF TEST CONTEXT
+  const { currentCity } = useApp();
   //console.log("Map render - currentCity:", currentCity);
+
   /*
   Leaflet attend des chiffres pour lat et lon.
   On centre sur la ville choisie sinon Paris par défaut.
