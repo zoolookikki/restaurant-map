@@ -6,14 +6,24 @@
 */
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-// MODIF TEST CONTEXT
+/*
+ MODIF TEST CONTEXT
+ pour accéder au contexte global
+*/
 import { useApp } from "../context/AppContext"
 
-// MODIF TEST CONTEXT
+/*
+MODIF TEST CONTEXT
+avant currentCity était passé en prop par MainPage.
+*/
 //function Map({ currentCity, poiList, onPOISelect }) {
 function Map({ poiList, onPOISelect }) {
 
-  // MODIF TEST CONTEXT
+  /*
+  MODIF TEST CONTEXT
+  avant l'état était passé en prop.
+  maintenant on récupère cet état depuis le contexte global.
+  */
   const { currentCity } = useApp();
   //console.log("Map render - currentCity:", currentCity);
 

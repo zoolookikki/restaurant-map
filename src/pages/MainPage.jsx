@@ -4,12 +4,19 @@ import Overlay from "../components/Overlay";
 import { useState, useEffect } from "react";
 import { getNearbyPOIs } from "../services/nearbyPoiService.js";
 
-// MODIF TEST CONTEXT
+/*
+ MODIF TEST CONTEXT
+ pour accéder au contexte global
+*/
 import { useApp } from "../context/AppContext"
 
 export default function MainPage() {
 
-  // MODIF TEST CONTEXT
+  /*
+  MODIF TEST CONTEXT
+  avant l'état était local à MainPage.
+  maintenant on récupère cet état depuis le contexte global.
+  */
   //const [currentCity, setCurrentCity] = useState(null);
   const { currentCity, setCurrentCity } = useApp();
 
@@ -81,7 +88,10 @@ export default function MainPage() {
       */}
       <div className="relative z-10">
         <Map
-          // MODIF TEST CONTEXT
+          /*
+          MODIF TEST CONTEXT
+          avant currentCity était passé en prop à Map.
+          */
           //currentCity={currentCity}
           poiList={poiList}
           onPOISelect={setCurrentPOI}
