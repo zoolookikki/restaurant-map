@@ -33,7 +33,7 @@ function Map({ poiList, onPOISelect }) {
   Leaflet attend des chiffres pour lat et lon.
   On centre sur la ville choisie sinon Paris par défaut.
   */
-  const center = currentCity ? [Number(currentCity.lat), Number(currentCity.lon)] : [48.8566, 2.3522];
+  const center = currentCity ? [currentCity.lat, currentCity.lon] : [48.8566, 2.3522];
 
   function Markers({ poiList, onPOISelect }) {
     return (
@@ -50,7 +50,7 @@ function Map({ poiList, onPOISelect }) {
         {poiList.map((poi) => (
           <Marker
             key={poi.id}
-            position={[Number(poi.lat), Number(poi.lon)]}
+            position={[poi.lat, poi.lon]}
           >
             <Popup className="z-30">
               <div className="">

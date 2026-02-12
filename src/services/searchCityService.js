@@ -20,8 +20,8 @@ export async function searchCity(query) {
       // clef unique nécessaire à l'affichage de la liste.
       id: result.place_id,
       name: result.display_name,
-      lat: result.lat,
-      lon: result.lon,
+      lat: Number(result.lat),
+      lon: Number(result.lon),
       // ATTENTION : le POI retournée doit contenir boundingbox car on en a besoin pour définir la viewbox (rectangle de recherche) => voir getNearbyPOIs.
       boundingbox: result.boundingbox,
     }));

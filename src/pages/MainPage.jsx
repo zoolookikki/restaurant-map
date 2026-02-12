@@ -35,11 +35,13 @@ export default function MainPage() {
   }, [errorMessage]);
 
   async function handleSelect(city) {
-    setCurrentCity(city);
     // reset POI uniquement si la ville a changé
     if (currentCity?.id !== city.id) {
+      setPoiList([]);
       setCurrentPOI(null);
     }    
+    // mise à jour après le test précédent, c'est plus clair.
+    setCurrentCity(city);
 
     try {
       const pois = await getNearbyPOIs(city);
