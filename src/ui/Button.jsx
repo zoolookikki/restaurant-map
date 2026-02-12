@@ -3,20 +3,25 @@ export function Button({
   onClick,
   type = "button",
   icon,
-  addClassName = ""
+  addClassName = "",
+  disabled = false
 }) {
 
   /*
   style de base commun à tous les boutons
   flex + items-center + justify-center: utile pour centrer l'icône 
   */
-  const className = "inline-flex items-center justify-center bg-yellow-400 font-semibold cursor-pointer";
-
+  const className = "inline-flex items-center justify-center font-semibold cursor-pointer";
+  
+  const enabledClass = "bg-yellow-400 hover:bg-yellow-500 cursor-pointer";
+  const disabledClass = "bg-yellow-200 text-gray-400 opacity-40 cursor-not-allowed";
+  
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`${className} ${addClassName}`}
+      disabled={disabled}
+      className={`${className} ${addClassName} ${disabled ? disabledClass : enabledClass}`}
     >
       {/* 
       si icône

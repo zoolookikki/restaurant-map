@@ -9,9 +9,19 @@ function Search({ onSearchSelect, onError }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
+  // simplification d'écriture.
+  const trimmedQuery = query.trim();
+  const isValid = trimmedQuery.length > 0;
+  
   // async car on attend le résulat de searchCity.
   async function handleSubmit(e) {
     e.preventDefault();
+
+    // par protection car impossible (bouton de recherche disabled)
+    if (!isValid) {
+      onError("La saisie de la ville est obligatoire");
+      return;
+    }
 
     try {
       const results = await searchCity(query);
@@ -67,10 +77,9 @@ function Search({ onSearchSelect, onError }) {
             placeholder="Saisissez une ville"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            required
             autoFocus
           />
-          <Button type="submit" icon="search" addClassName="h-10 w-10"/>
+          <Button type="submit" icon="search" addClassName="h-10 w-10" disabled={!isValid}/>
         </form>
         {renderSuggestionList()}
       </div>
