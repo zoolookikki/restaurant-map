@@ -56,11 +56,13 @@ export default function MainPage() {
 
   // on a cliqué sur "Continuer" dans l'overlay.
   function handleContinue() {
-    if (currentPOI) {
-      setErrorMessage(`On continue, le choix est : ${currentPOI.name}`);
-    } else {
-      setErrorMessage('On continue sans choix');
+    // cas normalement impossbible (par protection)
+    if (!currentPOI) {
+      setErrorMessage("Choix non effectué.");
+      return;
     }
+    // simulation de la suite avec alert pour distinguer le cas.
+    alert(`On continue, le choix est : ${currentPOI.name}`);
   }
 
   /*

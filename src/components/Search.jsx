@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { searchCity } from "../services/searchCityService.js";
+import { Button } from "../ui/Button.jsx";
 
 // AMELIORATION POSSIBLE : rendre ce module plus générique (ne doit pas savoir qu'il cherche des villes et que cela soit fait avec Nominatim(searchCity))
 function Search({ onSearchSelect, onError }) {
@@ -69,16 +70,11 @@ function Search({ onSearchSelect, onError }) {
             required
             autoFocus
           />
-          {/* flex + items-center + justify-center: utile pour centrer l'icône */}
-          <button className="flex items-center justify-center h-10 w-10 bg-yellow-400 cursor-pointer"
-            type="submit"
-          >
-            {/* material-icons : classe fournie par Google Material Icons => <span class="material-icons">search</span> affiche la loupe */}
-            <span className="material-icons">search</span>
-          </button>
+          <Button type="submit" icon="search" addClassName="h-10 w-10"/>
         </form>
         {renderSuggestionList()}
       </div>
   );
 }
 export default Search;
+

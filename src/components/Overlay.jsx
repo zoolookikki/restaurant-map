@@ -1,3 +1,5 @@
+import { Button } from "../ui/Button.jsx";
+
 function Overlay({ currentPOI, onContinue }) {
   return (
     // rounded-t-3xl : arrondi du haut uniquement.
@@ -6,8 +8,7 @@ function Overlay({ currentPOI, onContinue }) {
         <>
           <h3 className="text-sm font-semibold">Restaurant sélectionné</h3>
           <p className="text-xs">{currentPOI.address}</p>
-          {/* flex + items-center + justify-center: utile pour centrer l'icône */}
-          <button className="mt-4 flex items-center justify-center rounded-lg bg-yellow-400 px-3 py-2 text-xs font-semibold cursor-pointer" onClick={() => onContinue()}>Continuer</button>
+          <Button onClick={onContinue} addClassName="mt-4 rounded-lg px-3 py-2 text-xs">Continuer</Button>
         </>
       ) : (
         <h3 className="text-sm font-semibold">Aucun restaurant sélectionné</h3>
@@ -16,4 +17,3 @@ function Overlay({ currentPOI, onContinue }) {
   );
 }
 export default Overlay;
-

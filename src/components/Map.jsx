@@ -5,6 +5,8 @@
   Popup : pour afficher une bulle d'information lors du clic sur le marqueur.
 */
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { Button } from "../ui/Button.jsx";
+
 
 /*
  MODIF TEST CONTEXT
@@ -32,6 +34,36 @@ function Map({ poiList, onPOISelect }) {
   On centre sur la ville choisie sinon Paris par défaut.
   */
   const center = currentCity ? [Number(currentCity.lat), Number(currentCity.lon)] : [48.8566, 2.3522];
+
+  function Markers({ poiList, onPOISelect }) {
+    return (
+      <>
+        {/* Marqueur indiquant la ville choisie ==> non demandé dans la maquette Figma*/}
+        {/*
+        <Marker position={center}>
+          <Popup>
+            {currentCity ? currentCity.name : "Paris (défaut)"}
+          </Popup>
+        </Marker>
+        */}
+        {/* Marqueurs indiquant les différents points d'intérêt (Macdo) */}
+        {poiList.map((poi) => (
+          <Marker
+            key={poi.id}
+            position={[Number(poi.lat), Number(poi.lon)]}
+          >
+            <Popup className="z-30">
+              <div className="">
+                {/* Adresse */}
+                <p className="text-xs">{poi.address}</p>
+                <Button addClassName="rounded-lg px-3 py-2 text-xs" onClick={() => onPOISelect(poi)}>choisir</Button>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+      </>
+    );
+  }
 
   return (
     <>
@@ -63,39 +95,7 @@ function Map({ poiList, onPOISelect }) {
         />
 
         {/* ---------- MARQUEUR ---------- */}
-        {/* Marqueur indiquant la ville choisie ==> non demandé dans la maquette Figma*/}
-        {/*
-        <Marker position={center}>
-          <Popup>
-            {currentCity ? currentCity.name : "Paris (défaut)"}
-          </Popup>
-        </Marker>
-        */}
-        {/* Marqueurs indiquant les différents points d'intérêt (Macdo) */}
-        {poiList.map((poi) => (
-
-          <Marker
-            key={poi.id}
-            position={[Number(poi.lat), Number(poi.lon)]}
-          >
-              <Popup className="z-30"
-            >
-              <div className="">
-                {/* Adresse */}
-                <p className="text-xs">{poi.address}</p>
-                {/*
-                Bouton choisir
-                flex + items-center + justify-center: utile pour centrer le texte
-                */}
-                <button className="inline-flex items-center justify-center rounded-lg bg-yellow-400 px-3 py-2 text-xs font-semibold cursor-pointer"
-                  onClick={() => onPOISelect(poi)}
-                >
-                  choisir
-                </button>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
+        <Markers poiList={poiList} onPOISelect={onPOISelect} />
       </MapContainer>
     </>
   );
