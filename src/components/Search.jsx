@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { searchCity } from "../services/searchCityService.js";
 import { Button } from "../ui/Button.jsx";
 
@@ -12,7 +12,7 @@ function Search({ onSearchSelect, onError }) {
   // simplification d'écriture.
   const trimmedQuery = query.trim();
   const isValid = trimmedQuery.length > 0;
-  
+
   // async car on attend le résulat de searchCity.
   async function handleSubmit(e) {
     e.preventDefault();
@@ -24,7 +24,7 @@ function Search({ onSearchSelect, onError }) {
     }
 
     try {
-      const results = await searchCity(query);
+      const results = await searchCity(trimmedQuery);
 
       if (results.length === 0) {
         onError("Aucune correspondance trouvée pour cette recherche.");
@@ -41,7 +41,10 @@ function Search({ onSearchSelect, onError }) {
     onSearchSelect(suggestion);
     setSuggestions([]);
   }
-  const renderSuggestionList = () => {
+
+  // fonction factorisée pour le POC de useMemo
+  const buildSuggestionsList = () => {
+    console.count("buildSuggestionsList");
     return (
       // space-y-2" : espace entre les li.
       <ul className="px-4 pb-4 space-y-2">
@@ -57,6 +60,12 @@ function Search({ onSearchSelect, onError }) {
       </ul>
     );
   };
+
+  // POC useMemo
+//  const suggestionsList = buildSuggestionsList();
+  const suggestionsList = useMemo(() => {
+    return buildSuggestionsList();
+  }, [suggestions]);
 
   {/* bg-white/70 : fond blanc avec 70% d’opacité pour donner un effet verre */}
   return (
@@ -81,9 +90,8 @@ function Search({ onSearchSelect, onError }) {
           />
           <Button type="submit" icon="search" addClassName="h-10 w-10" disabled={!isValid}/>
         </form>
-        {renderSuggestionList()}
+        {suggestionsList}
       </div>
   );
 }
 export default Search;
-
