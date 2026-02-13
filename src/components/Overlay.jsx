@@ -1,6 +1,8 @@
 import { Button } from "../ui/Button.jsx";
 
 function Overlay({ currentPOI, onContinue }) {
+  //console.log("Render Overlay");
+  console.count("Render Overlay");
   return (
     // rounded-t-3xl : arrondi du haut uniquement.
     <div className="w-full rounded-t-3xl bg-white p-4">

@@ -4,6 +4,8 @@ import { Button } from "../ui/Button.jsx";
 
 // AMELIORATION POSSIBLE : rendre ce module plus générique (ne doit pas savoir qu'il cherche des villes et que cela soit fait avec Nominatim(searchCity))
 function Search({ onSearchSelect, onError }) {
+  //console.log("Render Search");
+  console.count("Render Search");
 
   // champ de recherche.
   const [query, setQuery] = useState("");

@@ -6,6 +6,8 @@ export function Button({
   addClassName = "",
   disabled = false
 }) {
+  //console.log("Render Button");
+  console.count("Render Button");
 
   /*
   style de base commun à tous les boutons

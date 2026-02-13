@@ -20,6 +20,8 @@ avant currentCity était passé en prop par MainPage.
 */
 //function Map({ currentCity, poiList, onPOISelect }) {
 function Map({ poiList, onPOISelect }) {
+  //console.log("Render Map");
+  console.count("Render Map");
 
   const DEFAULT_CENTER = [48.8566, 2.3522]; // Paris
   const DEFAULT_ZOOM = 13; // 6 = pays, 12 = ville, 15 = quartier
