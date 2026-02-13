@@ -12,6 +12,8 @@ import { useApp } from "../context/AppContext"
 
 export default function MainPage() {
 
+  const ERROR_TIMEOUT_SECONDE = 4;
+
   /*
   MODIF TEST CONTEXT
   avant l'état était local à MainPage.
@@ -29,8 +31,7 @@ export default function MainPage() {
   const [errorMessage, setErrorMessage] = useState(null);
   useEffect(() => {
     if (!errorMessage) return;
-
-    const t = setTimeout(() => setErrorMessage(null), 4000);
+    const t = setTimeout(() => setErrorMessage(null), 1000*ERROR_TIMEOUT_SECONDE);
     return () => clearTimeout(t);
   }, [errorMessage]);
 

@@ -1,7 +1,13 @@
 import axios from "axios";
 
-export async function getNearbyPOIs(city, limit = 10) {
+const DEFAULT_LIMIT = 10;
+
+export async function getNearbyPOIs(city, limit = DEFAULT_LIMIT) {
   //console.log("getNearbyPOIs=", city);
+
+  const NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
+  const POI_QUERY = "McDonald's";
+  const VIEWBOX_MARGIN = 0.10; // environ 10 km.
 
   /*
   ATTENTION : city doit contenir boundingbox car on en a besoin pour définir la viewbox (rectangle de recherche)
@@ -16,17 +22,17 @@ export async function getNearbyPOIs(city, limit = 10) {
   // marge ajoutée pour avoir un rectangle de recherche plus large et retransformation en string pour Nominatim.
   const margin = 0.10; // environ 10 km.
   const viewbox = [
-    west  - margin, // diminution de la longitude pour agrandir vers la gauche.
-    north + margin, // augmentation de la latitude pour agrandir vers le haut.
-    east  + margin, // augmentation de la latitude pour agrandire vers la droite.
-    south - margin  //  diminution de la longitude pour agrandir vers le bas.
+    west  - VIEWBOX_MARGIN, // diminution de la longitude pour agrandir vers la gauche.
+    north + VIEWBOX_MARGIN, // augmentation de la latitude pour agrandir vers le haut.
+    east  + VIEWBOX_MARGIN, // augmentation de la latitude pour agrandire vers la droite.
+    south - VIEWBOX_MARGIN  //  diminution de la longitude pour agrandir vers le bas.
   ].join(",");
 
   try {
-    const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+    const response = await axios.get(NOMINATIM_SEARCH_URL, {
       params: {
         format: "json",
-        q: "McDonald's",
+        q: POI_QUERY,
         limit,
         viewbox,
         // Limite les résultats à l’intérieur de la viewbox.
@@ -49,50 +55,3 @@ export async function getNearbyPOIs(city, limit = 10) {
     throw new Error("Impossible de récupérer la liste des points d'intérêt.");
   }
 }
-
-// SIMULATION.
-/*
-export async function getNearbyPOIs(city) {
-  // Nomatim renvoi des strings.
-  const lat = Number(city.lat);
-  const lon = Number(city.lon);
-
-  // distance de 1km entre chaque points pour retourner 4 restaurants Macdo placés en carré autour du centre de la ville.
-  const offset = 0.01;
-
-  return [
-    {
-      id: 1,
-      name: "McDonald's Nord-Est",
-      lat: lat + offset,
-      lon: lon + offset,
-      address: "Son adresse se situe au Nord-Est",
-      description: "Point d’intérêt simulé placé au Nord-Est de la ville.",
-    },
-    {
-      id: 2,
-      name: "McDonald's Nord-Ouest",
-      lat: lat + offset,
-      lon: lon - offset,
-      address: "Son adresse se situe au Nord-Ouest",
-      description: "Point d’intérêt simulé placé au Nord-Ouest de la ville.",
-    },
-    {
-      id: 3,
-      name: "McDonald's Sud-Est",
-      lat: lat - offset,
-      lon: lon + offset,
-      address: "Son adresse se situe au Sud-Est",
-      description: "Point d’intérêt simulé placé au Sud-Ouest de la ville.",
-    },
-    {
-      id: 4,
-      name: "McDonald's Sud-Ouest",
-      lat: lat - offset,
-      lon: lon - offset,
-      address: "Son adresse se situe au Sud-Ouest",
-      description: "Point d’intérêt simulé placé au Sud-Est de la ville.",
-    },
-  ];
-}
-*/

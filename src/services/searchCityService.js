@@ -1,17 +1,19 @@
 import axios from "axios";
 
 export async function searchCity(query) {
+
+  const NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
+  const DEFAULT_LIMIT = 10;
+
   // null, undefined, "" OR "  "
   if (!query || !query.trim()) throw new Error("Query invalide");
 
-  const url = "https://nominatim.openstreetmap.org/search";
-
   try {
-    const response = await axios.get(url, {
+    const response = await axios.get(NOMINATIM_SEARCH_URL, {
       params: {
         format: "json",
         q: query,
-        limit: 10,
+        limit: DEFAULT_LIMIT,
       }
     });
 

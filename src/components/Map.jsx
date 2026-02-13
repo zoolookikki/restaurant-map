@@ -4,7 +4,7 @@
   Marker : pour ajouter un marqueur sur la carte.
   Popup : pour afficher une bulle d'information lors du clic sur le marqueur.
 */
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from "react-leaflet";
 import { Button } from "../ui/Button.jsx";
 
 
@@ -21,6 +21,10 @@ avant currentCity était passé en prop par MainPage.
 //function Map({ currentCity, poiList, onPOISelect }) {
 function Map({ poiList, onPOISelect }) {
 
+  const DEFAULT_CENTER = [48.8566, 2.3522]; // Paris
+  const DEFAULT_ZOOM = 13; // 6 = pays, 12 = ville, 15 = quartier
+  const TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
   /*
   MODIF TEST CONTEXT
   avant l'état était passé en prop.
@@ -31,21 +35,29 @@ function Map({ poiList, onPOISelect }) {
 
   /*
   Leaflet attend des chiffres pour lat et lon.
-  On centre sur la ville choisie sinon Paris par défaut.
+  On centre sur la ville choisie sinon la ville par défaut.
   */
-  const center = currentCity ? [currentCity.lat, currentCity.lon] : [48.8566, 2.3522];
+  const center = currentCity ? [currentCity.lat, currentCity.lon] : DEFAULT_CENTER;
+
+  function CenterMarker({ center }) {
+    // décalage sinon le point est sur le nom de la ville.
+    const centerOffset = [center[0] + 0.002, center[1]];
+
+    return (
+      <>
+        <CircleMarker center={centerOffset} radius={6} pathOptions={{ color: "#ff3b3b", fillColor: "#ff3b3b", fillOpacity: 1 }} />
+        <CircleMarker center={centerOffset} radius={12} pathOptions={{ color: "#ff3b3b", opacity: 0.3, fillOpacity: 0 }} />
+      </>
+    );
+  }
+
 
   function Markers({ poiList, onPOISelect }) {
     return (
       <>
-        {/* Marqueur indiquant la ville choisie ==> non demandé dans la maquette Figma*/}
-        {/*
-        <Marker position={center}>
-          <Popup>
-            {currentCity ? currentCity.name : "Paris (défaut)"}
-          </Popup>
-        </Marker>
-        */}
+        {/* Marqueur du centre ville */}
+        <CenterMarker center={center} />
+
         {/* Marqueurs indiquant les différents points d'intérêt (Macdo) */}
         {poiList.map((poi) => (
           <Marker
@@ -74,8 +86,7 @@ function Map({ poiList, onPOISelect }) {
         center={center}
         // astuce pour que la carte se recentre à chaque changement de currentCity (à priori moins efficace, à voir).
         key={currentCity?.id ?? "default"}
-        // 6 = pays, 12 = ville, 15 = quartier
-        zoom={13}
+        zoom={DEFAULT_ZOOM}
         // si besoin de supprimer le zoom avec la molette.
         // scrollWheelZoom={false}
       >
@@ -83,7 +94,7 @@ function Map({ poiList, onPOISelect }) {
         {/* ---------- FOND OPENSTREETMAP ---------- */}
         <TileLayer
           // obligation légale (affichage en bas à droite)
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution={TILE_ATTRIBUTION}          
           /*
           Pour charger les images, Leaflet a besoin de savoir chez quel fournisseur récupérer l'image (ici OpenStreetMap).
           Il génère automatiquement ces valeurs :
@@ -91,7 +102,7 @@ function Map({ poiList, onPOISelect }) {
             {x} {y} = coordonnées de la tuile
             {s} = serveur (a,b,c)
           */
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url={TILE_URL}
         />
 
         {/* ---------- MARQUEUR ---------- */}
