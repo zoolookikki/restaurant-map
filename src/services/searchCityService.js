@@ -1,4 +1,5 @@
 import axios from "axios";
+import { delay } from "../utils/times";
 
 export async function searchCity(query) {
 
@@ -7,6 +8,13 @@ export async function searchCity(query) {
 
   // null, undefined, "" OR "  "
   if (!query || !query.trim()) throw new Error("Query invalide");
+
+  /*
+  simulation lenteur :
+  delay(...) : je déclenche le minuteur.
+  await : j'attends que le minuteur se termine.
+  */
+  //await delay(3000);
 
   try {
     const response = await axios.get(NOMINATIM_SEARCH_URL, {

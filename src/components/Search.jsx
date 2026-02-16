@@ -64,7 +64,7 @@ function Search({ onSearchSelect, onError }) {
   };
 
   // POC useMemo
-//  const suggestionsList = buildSuggestionsList();
+  // const suggestionsList = buildSuggestionsList();
   const suggestionsList = useMemo(() => {
     return buildSuggestionsList();
   }, [suggestions]);
