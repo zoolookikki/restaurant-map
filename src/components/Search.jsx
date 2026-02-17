@@ -3,13 +3,16 @@ import { searchCity } from "../services/searchCityService.js";
 import { Button } from "../ui/Button.jsx";
 
 // AMELIORATION POSSIBLE : rendre ce module plus générique (ne doit pas savoir qu'il cherche des villes et que cela soit fait avec Nominatim(searchCity))
-function Search({ onSearchSelect, onError }) {
+function Search({ onSearchSelect, onError, isDisabled = false }) {
   //console.log("Render Search");
   console.count("Render Search");
 
   // champ de recherche.
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+
+  // POC API lente : pour griser le formulaire et le bouton pendant l'appel API (si traitement long).
+  const [isLoading, setIsLoading] = useState(false);
 
   // simplification d'écriture.
   const trimmedQuery = query.trim();
@@ -25,6 +28,9 @@ function Search({ onSearchSelect, onError }) {
       return;
     }
 
+    setSuggestions([]);
+    // POC API lente.
+    setIsLoading(true);
     try {
       const results = await searchCity(trimmedQuery);
 
@@ -35,6 +41,9 @@ function Search({ onSearchSelect, onError }) {
     } catch (error) {
       console.error(error);
       onError(error.message);
+    // POC API lente.
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -89,8 +98,9 @@ function Search({ onSearchSelect, onError }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
+            disabled={isLoading || isDisabled}
           />
-          <Button type="submit" icon="search" addClassName="h-10 w-10" disabled={!isValid}/>
+          <Button type="submit" icon="search" addClassName="h-10 w-10" disabled={!isValid || isLoading || isDisabled}/>
         </form>
         {suggestionsList}
       </div>

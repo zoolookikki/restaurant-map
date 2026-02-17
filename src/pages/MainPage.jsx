@@ -27,6 +27,9 @@ export default function MainPage() {
   // point d'intérêt choisi (le Mcdo choisi suite au clic sur le marqueur).
   const [currentPOI, setCurrentPOI] = useState(null);
 
+  // POC API lente : pour griser le formulaire de recherche et le bouton pendant l'appel API (si traitement long).
+  const [isLoading, setIsLoading] = useState(false);
+
   // pour l'affichage du message d'erreur.
   const [errorMessage, setErrorMessage] = useState(null);
   useEffect(() => {
@@ -44,6 +47,8 @@ export default function MainPage() {
     // mise à jour après le test précédent, c'est plus clair.
     setCurrentCity(city);
 
+    // POC API lente.
+    setIsLoading(true);
     try {
       const pois = await getNearbyPOIs(city);
 
@@ -54,6 +59,9 @@ export default function MainPage() {
     } catch (error) {
       console.error(error);
       setErrorMessage(error.message);
+    // POC API lente.
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -86,6 +94,7 @@ export default function MainPage() {
           <Search
             onSearchSelect={handleSelect}
             onError={setErrorMessage}
+            isDisabled={isLoading}
           />
         </div>
       </div>

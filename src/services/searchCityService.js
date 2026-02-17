@@ -10,7 +10,7 @@ export async function searchCity(query) {
   if (!query || !query.trim()) throw new Error("Query invalide");
 
   /*
-  simulation lenteur :
+  POC API lente :
   delay(...) : je déclenche le minuteur.
   await : j'attends que le minuteur se termine.
   */

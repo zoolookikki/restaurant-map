@@ -1,4 +1,5 @@
 import axios from "axios";
+import { delay } from "../utils/times";
 
 const DEFAULT_LIMIT = 10;
 
@@ -27,6 +28,13 @@ export async function getNearbyPOIs(city, limit = DEFAULT_LIMIT) {
     east  + VIEWBOX_MARGIN, // augmentation de la latitude pour agrandire vers la droite.
     south - VIEWBOX_MARGIN  //  diminution de la longitude pour agrandir vers le bas.
   ].join(",");
+
+  /*
+  POC API lente :
+  delay(...) : je déclenche le minuteur.
+  await : j'attends que le minuteur se termine.
+  */
+  //await delay(3000);
 
   try {
     const response = await axios.get(NOMINATIM_SEARCH_URL, {
