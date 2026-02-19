@@ -95,3 +95,39 @@ Il possède deux états :
 ### Outils de développement
 
 - **Vite** : outil de développement et de build utilisé pour exécuter et construire l’application React.
+
+## Démo en ligne
+
+L’application est déployée sur Vercel : https://restaurant-map-six.vercel.app
+
+Un correctif Leaflet a été nécessaire pour afficher les icônes en production (leafletFix.js).
+
+## Installation
+
+```bash
+git clone https://github.com/zoolookikki/restaurant-map.git
+cd restaurant-map
+npm install
+npm run dev
+```
+
+## Tests
+
+npm test
+
+Tests unitaires avec :
+- Vitest
+- React Testing Library
+- user-event
+
+Composants testés :
+- Button
+- Search
+- Overlay
+
+Les appels API sont mockés.
+
+## Déploiement
+
+npm run build
+
