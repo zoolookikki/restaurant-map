@@ -1,3 +1,17 @@
+/*
+Composant Button générique réutilisable dans toute l'application :
+  - icône de type Material Icons
+  - classes CSS personnalisables
+  - gestion état disabled
+
+Props :
+  - children : texte du bouton
+  - function onClick : callback au clic
+  - type : type HTML (button, submit)
+  - icon : nom de l'icône Material Icons
+  - addClassName : classes CSS supplémentaires
+  - boolean disabled : état désactivé
+*/
 export function Button({
   children,
   onClick,

@@ -2,7 +2,18 @@ import { useState, useMemo } from "react";
 import { searchCity } from "../services/searchCityService.js";
 import { Button } from "../ui/Button.jsx";
 
-// AMELIORATION POSSIBLE : rendre ce module plus générique (ne doit pas savoir qu'il cherche des villes et que cela soit fait avec Nominatim(searchCity))
+/*
+Composant Search permettant de rechercher une ville et d'afficher les suggestions :
+  - l'utilisateur saisit une ville
+  - appel API Nominatim
+  - affichage des suggestions
+  - sélection d'une ville => remontée au parent
+Props :
+  - function onSearchSelect : appelée quand une ville est choisie
+  - function onError : appelée en cas d'erreur
+  - boolean isDisabled : désactive le formulaire
+Amélioration possible : rendre ce module plus générique (ne doit pas savoir qu'il cherche des villes et que cela soit fait avec Nominatim(searchCity))
+*/
 function Search({ onSearchSelect, onError, isDisabled = false }) {
   //console.log("Render Search");
   console.count("Render Search");
@@ -18,7 +29,11 @@ function Search({ onSearchSelect, onError, isDisabled = false }) {
   const trimmedQuery = query.trim();
   const isValid = trimmedQuery.length > 0;
 
-  // async car on attend le résulat de searchCity.
+  /*
+  Gestion du submit du formulaire.
+  On empêche le comportement par défaut du navigateur, puis on appelle l'API Nominatim pour récupérer les suggestions.
+  async car on attend le résulat de searchCity.
+  */
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -39,7 +54,7 @@ function Search({ onSearchSelect, onError, isDisabled = false }) {
       }
       setSuggestions(results);
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       onError(error.message);
     // POC API lente.
     } finally {
@@ -74,6 +89,10 @@ function Search({ onSearchSelect, onError, isDisabled = false }) {
 
   // POC useMemo
   // const suggestionsList = buildSuggestionsList();
+  /*
+  Optimisation : useMemo évite de reconstruire la liste à chaque re-render si les suggestions n'ont pas changé.
+  Utile si la liste devient importante.
+  */
   const suggestionsList = useMemo(() => {
     return buildSuggestionsList();
   }, [suggestions]);

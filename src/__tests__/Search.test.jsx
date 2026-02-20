@@ -1,7 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import Search from "../components/Search";
 import userEvent from "@testing-library/user-event";
-// on remplace le vrai service par un faux.
+/*
+On remplace le vrai service par un faux.
+Cela permet de tester le comportement sans dépendre de l'API réelle.
+*/
 vi.mock("../services/searchCityService.js", () => ({
   searchCity: vi.fn(),
 }));

@@ -1,23 +1,30 @@
 /*
-  MapContainer : pour créer la carte LeafLet.
-  TileLayer : pour afficher le fond de la carte avec OpenStreetMap.
-  Marker : pour ajouter un marqueur sur la carte.
-  Popup : pour afficher une bulle d'information lors du clic sur le marqueur.
+MapContainer : pour créer la carte LeafLet.
+TileLayer : pour afficher le fond de la carte avec OpenStreetMap.
+Marker : pour ajouter un marqueur sur la carte.
+Popup : pour afficher une bulle d'information lors du clic sur le marqueur.
 */
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from "react-leaflet";
 import { Button } from "../ui/Button.jsx";
 
 
 /*
- MODIF TEST CONTEXT
- pour accéder au contexte global
+MODIF TEST CONTEXT
+pour accéder au contexte global
 */
 import { useApp } from "../context/AppContext"
 
 /*
-MODIF TEST CONTEXT
-avant currentCity était passé en prop par MainPage.
+Composant Map : affiche la carte Leaflet et les POI's.
+Responsabilités :
+  - centrer la carte sur la ville sélectionnée
+  - afficher les marqueurs des POI's
+  - permettre la sélection d'un POI
+Props :
+  - poiList : liste des POI's
+  - function onPOISelect : callback de sélection du POI
 */
+//MODIF TEST CONTEXT : avant currentCity était passé en prop par MainPage.
 //function Map({ currentCity, poiList, onPOISelect }) {
 function Map({ poiList, onPOISelect }) {
   //console.log("Render Map");
@@ -60,7 +67,10 @@ function Map({ poiList, onPOISelect }) {
         {/* Marqueur du centre ville */}
         <CenterMarker center={center} />
 
-        {/* Marqueurs indiquant les différents points d'intérêt (Macdo) */}
+        {/*
+        Marqueurs indiquant les différents points d'intérêt :
+        Pour chaque point d'intérêt, on crée un Marker Leaflet avec un Popup contenant un bouton de sélection.
+        */}
         {poiList.map((poi) => (
           <Marker
             key={poi.id}
@@ -86,8 +96,15 @@ function Map({ poiList, onPOISelect }) {
       {/* class map : pour que la carte prenne tout l'écran. */}
       <MapContainer className="map"
         center={center}
-        // astuce pour que la carte se recentre à chaque changement de currentCity (à priori moins efficace, à voir).
-        key={currentCity?.id ?? "default"}
+        /*
+        Astuce React pour que la carte se recentre à chaque changement de currentCity.
+        Cela force React à recréer le composant quand il change car la carte est recrée => centrage.
+        */
+        key={
+          currentCity && currentCity.id
+            ? currentCity.id
+            : "default"
+        }
         zoom={DEFAULT_ZOOM}
         // si besoin de supprimer le zoom avec la molette.
         // scrollWheelZoom={false}

@@ -1,5 +1,14 @@
 import { Button } from "../ui/Button.jsx";
 
+/*
+Composant Overlay : affiche les informations du POI sélectionné.
+Deux états :
+  - aucun restaurant sélectionné
+  - restaurant sélectionné + bouton Continuer
+Props :
+  - object currentPOI : restaurant sélectionné
+  - function onContinue : callback bouton Continuer
+*/
 function Overlay({ currentPOI, onContinue }) {
   //console.log("Render Overlay");
   console.count("Render Overlay");

@@ -10,6 +10,14 @@ import { getNearbyPOIs } from "../services/nearbyPoiService.js";
 */
 import { useApp } from "../context/AppContext"
 
+
+/*
+Page principale de l'application :
+  - gestion de la ville sélectionnée
+  - récupération des POI's
+  - gestion des erreurs
+  - coordination Search / Map / Overlay
+*/
 export default function MainPage() {
 
   const ERROR_TIMEOUT_SECONDE = 4;
@@ -30,7 +38,10 @@ export default function MainPage() {
   // POC API lente : pour griser le formulaire de recherche et le bouton pendant l'appel API (si traitement long).
   const [isLoading, setIsLoading] = useState(false);
 
-  // pour l'affichage du message d'erreur.
+  /*
+  Affichage temporaire du message d'erreur.
+  Le message disparaît automatiquement après ERROR_TIMEOUT_SECONDE secondes.
+  */
   const [errorMessage, setErrorMessage] = useState(null);
   useEffect(() => {
     if (!errorMessage) return;
@@ -38,6 +49,12 @@ export default function MainPage() {
     return () => clearTimeout(t);
   }, [errorMessage]);
 
+  /*
+  Appelé lorsqu'une ville est sélectionnée dans le composant Search, cette fonction :
+    - met à jour la ville courante (dans le contexte global)
+    - appelle l'API pour récupérer les POI's proches
+    - gère les erreurs et l'état de chargement.
+  */
   async function handleSelect(city) {
     // reset POI uniquement si la ville a changé
     if (currentCity?.id !== city.id) {
@@ -57,7 +74,7 @@ export default function MainPage() {
       }
       setPoiList(pois);
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       setErrorMessage(error.message);
     // POC API lente.
     } finally {

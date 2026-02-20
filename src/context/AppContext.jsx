@@ -1,6 +1,7 @@
 // MODIF TEST CONTEXT
 /*
 Cette modification a été ajoutée pour répondre à la mise en place d'un état global partagé via le Context API (POC).
+Le contexte permet de partager la ville sélectionnée entre plusieurs composants sans passer par les props.
 D'autres états globaux plus adaptés pourrait être :
 - la langue.
 - le thème.
