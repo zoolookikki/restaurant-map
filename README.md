@@ -75,6 +75,7 @@ Il possède deux états :
 ### Prérequis techniques
 
 - **Node.js** : environnement d’exécution JavaScript utilisé pour le développement et l’exécution des tests.
+- **npm** : gestionnaire de paquets permettant d’installer et gérer les dépendances du projet.
 
 ### Applicatives
 
@@ -94,7 +95,7 @@ Il possède deux états :
 
 ### Outils de développement
 
-- **Vite** : outil de développement et de build utilisé pour exécuter et construire l’application React.
+- **Vite** : outil de développement et de build utilisé pour exécuter et construire l’application React (rechargement à chaud + build optimisé).
 
 ## Démo en ligne
 
