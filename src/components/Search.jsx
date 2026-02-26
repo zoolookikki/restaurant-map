@@ -20,6 +20,7 @@ function Search({ onSearchSelect, onError, isDisabled = false }) {
 
   // champ de recherche.
   const [query, setQuery] = useState("");
+  // liste de suggestions.
   const [suggestions, setSuggestions] = useState([]);
 
   // POC API lente : pour griser le formulaire et le bouton pendant l'appel API (si traitement long).

@@ -19,7 +19,7 @@ describe("Search", () => {
     const onError = vi.fn();
 
     render(<Search onSearchSelect={onSearchSelect} onError={onError} />);
-
+    // on cherche un bouton dont le texte contient "search" => si Google Material Icons, c'est le cas.
     const button = screen.getByRole("button", { name: /search/i });
     expect(button).toBeDisabled();
   });

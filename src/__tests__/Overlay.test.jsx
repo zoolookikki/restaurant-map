@@ -11,6 +11,7 @@ describe("Overlay", () => {
     render(<Overlay currentPOI={null} onContinue={onContinue} />);
 
     expect(screen.getByText(/aucun/i)).toBeInTheDocument();
+    // on cherche un bouton dont le texte contient “Continuer”.
     expect(screen.queryByRole("button", { name: /continuer/i })).not.toBeInTheDocument();
   });
 
@@ -29,6 +30,7 @@ describe("Overlay", () => {
     expect(screen.queryByText(/aucun/i)).not.toBeInTheDocument();
     expect(screen.getByText(/Paris/i)).toBeInTheDocument();
     // await avec userEvent (asynchrone) pour être sûr que le clic et ses effets sont terminés avant de vérifier.
+    // on cherche un bouton dont le texte contient “Continuer”.
     await user.click(screen.getByRole("button", { name: /continuer/i }));
     expect(onContinue).toHaveBeenCalledTimes(1);
   });

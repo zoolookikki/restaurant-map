@@ -21,7 +21,6 @@ export async function getNearbyPOIs(city, limit = DEFAULT_LIMIT) {
   // transformation de chaque point du rectangle en numérique (ajout de la marge)
   const [south, north, west, east] = city.boundingbox.map(Number);
   // marge ajoutée pour avoir un rectangle de recherche plus large et retransformation en string pour Nominatim.
-  const margin = 0.10; // environ 10 km.
   const viewbox = [
     west  - VIEWBOX_MARGIN, // diminution de la longitude pour agrandir vers la gauche.
     north + VIEWBOX_MARGIN, // augmentation de la latitude pour agrandir vers le haut.
